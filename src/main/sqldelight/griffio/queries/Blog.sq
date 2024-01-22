@@ -1,0 +1,9 @@
+create:
+INSERT INTO blog (title) VALUES (?) RETURNING *;
+
+read:
+SELECT * FROM blog WHERE blog_id = ?;
+
+update:
+UPDATE blog SET title = ?, view_count = ?, is_active = ?, last_update = now() WHERE blog_id = ?;
+

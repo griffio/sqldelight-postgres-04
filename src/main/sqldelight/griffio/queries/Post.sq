@@ -1,0 +1,3 @@
+create:
+INSERT INTO post (blog_id, title, tags) VALUES (?, ?, ?) RETURNING *;
+

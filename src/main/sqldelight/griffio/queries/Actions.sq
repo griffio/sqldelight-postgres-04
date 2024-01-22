@@ -1,0 +1,14 @@
+createBlogWithAuthor:
+WITH new_blog AS (
+    INSERT INTO blog (title) VALUES (:title) RETURNING *
+),
+new_author_blog AS (
+    INSERT INTO author_blog
+    SELECT :authorid, new_blog.blog_id
+    FROM new_blog
+    ON CONFLICT (author_id, blog_id) DO NOTHING -- needed for sqldelight bug #4938
+    RETURNING *
+)
+SELECT new_blog.* FROM new_author_blog JOIN new_blog USING (blog_id);
+
+

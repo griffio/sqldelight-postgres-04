@@ -1,0 +1,8 @@
+create:
+INSERT INTO author (fullname, email_address, is_active) VALUES (?, ?, ?) RETURNING *;
+
+read:
+SELECT * FROM author WHERE author_id = ?;
+
+update:
+UPDATE author SET fullname = ?, email_address = ?, is_active = ? WHERE author_id = ? RETURNING *;

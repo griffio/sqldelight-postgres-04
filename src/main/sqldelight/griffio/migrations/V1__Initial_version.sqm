@@ -1,0 +1,33 @@
+import kotlin.collections.Set;
+import kotlin.String;
+
+CREATE TABLE blog (
+  blog_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  title TEXT NOT NULL,
+  view_count INT NOT NULL DEFAULT 0,
+  is_active BOOLEAN NOT NULL DEFAULT TRUE,
+  created_date TIMESTAMP WITH TIME ZONE DEFAULT now(),
+  last_update TIMESTAMP WITH TIME ZONE
+);
+
+CREATE TABLE author (
+  author_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  fullname TEXT NOT NULL,
+  email_address TEXT NOT NULL,
+  is_active BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+CREATE TABLE author_blog (
+  author_id BIGINT NOT NULL REFERENCES author(author_id) ON DELETE CASCADE,
+  blog_id BIGINT NOT NULL REFERENCES blog(blog_id) ON DELETE CASCADE,
+  UNIQUE(author_id, blog_id)
+);
+
+CREATE TABLE post (
+  post_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  blog_id BIGINT NOT NULL REFERENCES blog(blog_id) ON DELETE CASCADE,
+  title TEXT NOT NULL,
+  tags TEXT[] AS Set<String> NOT NULL DEFAULT '{}',
+  created_date TIMESTAMP WITH TIME ZONE DEFAULT now(),
+  last_update TIMESTAMP WITH TIME ZONE
+);
